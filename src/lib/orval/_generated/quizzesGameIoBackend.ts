@@ -6,125 +6,172 @@
  * OpenAPI spec version: 0.1
  */
 import type {
+  AccountCollectionDto,
   AuthTokenDto,
   CreateGameRoomDto,
   GameRoomCollectionDto,
   GameRoomDto,
   GameRoomMemberCollectionDto,
   GameRoomMemberDto,
+  ListAccountsControllerListAccountsParams,
   ListGameRoomsControllerListGameRoomsParams,
+  QuizCollectionDto,
   SignInWithUsernameDto,
-  SignUpWithUsernameDto,
+  SignUpWithUsernameDto
 } from './quizzesGameIoBackend.schemas';
 
 import { orvalInstance } from '../../../shared/service/api/client/index';
 
+
+
+  /**
+ * @summary 계정 목록 조회
+ */
+export const listAccountsControllerListAccounts = (
+    params: ListAccountsControllerListAccountsParams,
+ ) => {
+      return orvalInstance<AccountCollectionDto>(
+      {url: `/accounts`, method: 'GET',
+        params
+    },
+      );
+    }
+  
 /**
  * @summary username 기반 회원가입
  */
 export const signUpWithUsernameControllerSignUpWithUsername = (
-  signUpWithUsernameDto: SignUpWithUsernameDto
-) => {
-  return orvalInstance<AuthTokenDto>({
-    url: `/auth/sign-up/username`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: signUpWithUsernameDto,
-  });
-};
-
+    signUpWithUsernameDto: SignUpWithUsernameDto,
+ ) => {
+      return orvalInstance<AuthTokenDto>(
+      {url: `/auth/sign-up/username`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: signUpWithUsernameDto
+    },
+      );
+    }
+  
 /**
  * @summary username 기반 로그인
  */
 export const signInWithUsernameControllerSignInWithUsername = (
-  signInWithUsernameDto: SignInWithUsernameDto
-) => {
-  return orvalInstance<AuthTokenDto>({
-    url: `/auth/sign-in/username`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: signInWithUsernameDto,
-  });
-};
-
+    signInWithUsernameDto: SignInWithUsernameDto,
+ ) => {
+      return orvalInstance<AuthTokenDto>(
+      {url: `/auth/sign-in/username`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: signInWithUsernameDto
+    },
+      );
+    }
+  
 /**
  * @summary 게임 방 생성
  */
 export const createGameRoomControllerCreateGameRoom = (
-  createGameRoomDto: CreateGameRoomDto
-) => {
-  return orvalInstance<GameRoomDto>({
-    url: `/game-rooms`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: createGameRoomDto,
-  });
-};
-
+    createGameRoomDto: CreateGameRoomDto,
+ ) => {
+      return orvalInstance<GameRoomDto>(
+      {url: `/game-rooms`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createGameRoomDto
+    },
+      );
+    }
+  
 /**
  * @summary 게임방 목록 조회
  */
 export const listGameRoomsControllerListGameRooms = (
-  params?: ListGameRoomsControllerListGameRoomsParams
-) => {
-  return orvalInstance<GameRoomCollectionDto>({
-    url: `/game-rooms`,
-    method: 'GET',
-    params,
-  });
-};
-
+    params?: ListGameRoomsControllerListGameRoomsParams,
+ ) => {
+      return orvalInstance<GameRoomCollectionDto>(
+      {url: `/game-rooms`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+/**
+ * @summary 게임 방 상세 조회
+ */
+export const getGameRoomControllerGetGameRoom = (
+    gameRoomId: string,
+ ) => {
+      return orvalInstance<GameRoomDto>(
+      {url: `/game-rooms/${gameRoomId}`, method: 'GET'
+    },
+      );
+    }
+  
 /**
  * @summary 게임 방 입장
  */
-export const joinGameRoomControllerJoinGameRoom = (gameRoomId: string) => {
-  return orvalInstance<GameRoomMemberDto>({
-    url: `/game-room/${gameRoomId}/members`,
-    method: 'POST',
-  });
-};
-
+export const joinGameRoomControllerJoinGameRoom = (
+    gameRoomId: string,
+ ) => {
+      return orvalInstance<GameRoomMemberDto>(
+      {url: `/game-room/${gameRoomId}/members`, method: 'POST'
+    },
+      );
+    }
+  
 /**
  * @summary 게임 방 퇴장
  */
-export const leaveGameRoomControllerLeaveGameRoom = (gameRoomId: string) => {
-  return orvalInstance<null>({
-    url: `/game-room/${gameRoomId}/members/me`,
-    method: 'DELETE',
-  });
-};
-
+export const leaveGameRoomControllerLeaveGameRoom = (
+    gameRoomId: string,
+ ) => {
+      return orvalInstance<null>(
+      {url: `/game-room/${gameRoomId}/members/me`, method: 'DELETE'
+    },
+      );
+    }
+  
 /**
  * @summary 게임방 유저 목록 조회
  */
 export const listGameRoomMembersControllerListGameRoomMembers = (
-  gameRoomId: string
-) => {
-  return orvalInstance<GameRoomMemberCollectionDto>({
-    url: `/game-rooms/${gameRoomId}/members`,
-    method: 'GET',
-  });
-};
-
-export type SignUpWithUsernameControllerSignUpWithUsernameResult = NonNullable<
-  Awaited<ReturnType<typeof signUpWithUsernameControllerSignUpWithUsername>>
->;
-export type SignInWithUsernameControllerSignInWithUsernameResult = NonNullable<
-  Awaited<ReturnType<typeof signInWithUsernameControllerSignInWithUsername>>
->;
-export type CreateGameRoomControllerCreateGameRoomResult = NonNullable<
-  Awaited<ReturnType<typeof createGameRoomControllerCreateGameRoom>>
->;
-export type ListGameRoomsControllerListGameRoomsResult = NonNullable<
-  Awaited<ReturnType<typeof listGameRoomsControllerListGameRooms>>
->;
-export type JoinGameRoomControllerJoinGameRoomResult = NonNullable<
-  Awaited<ReturnType<typeof joinGameRoomControllerJoinGameRoom>>
->;
-export type LeaveGameRoomControllerLeaveGameRoomResult = NonNullable<
-  Awaited<ReturnType<typeof leaveGameRoomControllerLeaveGameRoom>>
->;
-export type ListGameRoomMembersControllerListGameRoomMembersResult =
-  NonNullable<
-    Awaited<ReturnType<typeof listGameRoomMembersControllerListGameRoomMembers>>
-  >;
+    gameRoomId: string,
+ ) => {
+      return orvalInstance<GameRoomMemberCollectionDto>(
+      {url: `/game-rooms/${gameRoomId}/members`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * @summary 게임 시작 요청
+ */
+export const startGameControllerStartGame = (
+    gameRoomId: string,
+ ) => {
+      return orvalInstance<GameRoomDto>(
+      {url: `/game-room/${gameRoomId}/start`, method: 'POST'
+    },
+      );
+    }
+  
+/**
+ * @summary 퀴즈 목록 조회
+ */
+export const listQuizzesControllerListQuizzes = (
+    
+ ) => {
+      return orvalInstance<QuizCollectionDto>(
+      {url: `/admin/quizzes`, method: 'GET'
+    },
+      );
+    }
+  
+export type ListAccountsControllerListAccountsResult = NonNullable<Awaited<ReturnType<typeof listAccountsControllerListAccounts>>>
+export type SignUpWithUsernameControllerSignUpWithUsernameResult = NonNullable<Awaited<ReturnType<typeof signUpWithUsernameControllerSignUpWithUsername>>>
+export type SignInWithUsernameControllerSignInWithUsernameResult = NonNullable<Awaited<ReturnType<typeof signInWithUsernameControllerSignInWithUsername>>>
+export type CreateGameRoomControllerCreateGameRoomResult = NonNullable<Awaited<ReturnType<typeof createGameRoomControllerCreateGameRoom>>>
+export type ListGameRoomsControllerListGameRoomsResult = NonNullable<Awaited<ReturnType<typeof listGameRoomsControllerListGameRooms>>>
+export type GetGameRoomControllerGetGameRoomResult = NonNullable<Awaited<ReturnType<typeof getGameRoomControllerGetGameRoom>>>
+export type JoinGameRoomControllerJoinGameRoomResult = NonNullable<Awaited<ReturnType<typeof joinGameRoomControllerJoinGameRoom>>>
+export type LeaveGameRoomControllerLeaveGameRoomResult = NonNullable<Awaited<ReturnType<typeof leaveGameRoomControllerLeaveGameRoom>>>
+export type ListGameRoomMembersControllerListGameRoomMembersResult = NonNullable<Awaited<ReturnType<typeof listGameRoomMembersControllerListGameRoomMembers>>>
+export type StartGameControllerStartGameResult = NonNullable<Awaited<ReturnType<typeof startGameControllerStartGame>>>
+export type ListQuizzesControllerListQuizzesResult = NonNullable<Awaited<ReturnType<typeof listQuizzesControllerListQuizzes>>>
